@@ -1,8 +1,27 @@
+const dotenv = require('dotenv');
+dotenv.config();
+const apiKey = process.env.API_KEY;
+
 var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
+const meaningcloud = require('meaning-cloud')
 
 const app = express()
+
+const bodyParser = require('body-parser')
+
+//Use body-parser as middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//Cors for cross origin allowance
+const cors = require('cors');
+app.use(cors());
+
+var textapi = new meaningcloud({
+    key: "b9c3b40b0ebc04ac0f818fe483c2599a"
+});
 
 app.use(express.static('dist'))
 
@@ -14,8 +33,8 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
+app.listen(8081, function () {
+    console.log('Example app listening on port 8081!')
 })
 
 app.get('/test', function (req, res) {
